@@ -14,54 +14,26 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char	*copy_w(const char *s, int len);
 int		count_w(const char *s, char c);
-void	free_s(char *s);
+void	ft_allocate(char **tab, char const *s, char c);
 
 char	**ft_split(char const *s, char c)
 {
-	char		**res;
-	int			j;
-	const char	*str;
-	int			len;
+	char	**str;
+	int		size;
 
-	j = 0;
-	res = (char **)malloc(sizeof(char *) * (count_w(s, c) + 1));
-	if (res == NULL)
+	if (s == NULL)
+	{
 		return (NULL);
-	while (*s != '\0')
-	{
-		while (*s != '\0' && *s == c)
-			s++;
-		if (*s != '\0' && *s != c)
-		{
-			str = s;
-			len = 0;
-			while (*s != '\0' && *s != c)
-			{
-				s++;
-				len++;
-			}
-			res[j] = copy_w(str, len);
-			if (res[j++] == NULL)
-				free_s(res[j]);
-		}
 	}
-	res[j] = NULL;
-	return (res);
-}
-
-void	free_s(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
+	size = count_w(s, c);
+	str = (char **)malloc(sizeof(char *) * (size + 1));
+	if (str == NULL)
 	{
-		free(s);
-		i++;
+		return (NULL);
 	}
-	free(s);
+	ft_allocate(str, s, c);
+	return (str);
 }
 
 int	count_w(const char *s, char c)
@@ -89,20 +61,99 @@ int	count_w(const char *s, char c)
 	return (j);
 }
 
-char	*copy_w(const char *s, int len)
+void	ft_allocate(char **tab, char const *s, char c)
 {
-	int		i;
-	char	*word;
+	char		**tab1;
+	char const	*str;
+
+	str = s;
+	tab1 = tab;
+	while (*str)
+	{
+		while (*s == c)
+		{
+			s++;
+		}
+		str = s;
+		while (*str && *str != c)
+		{
+			str++;
+		}
+		if (*str == c || str > s)
+		{
+			*tab1 = ft_substr(s, 0, str - s);
+			s = str;
+			tab1++;
+		}
+	}
+	*tab1 = NULL;
+}
+/*
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+	size_t	len_s;
 
 	i = 0;
-	word = (char *)malloc(sizeof(char) * (len + 1));
-	while (i < len)
+	len_s = ft_strlen(s);
+	if (s == NULL)
+		return (NULL);
+	if (start >= len_s)
+		return (ft_strdup(""));
+	if (len > len_s - start)
 	{
-		word[i] = s[i];
+		len = len_s - start;
+	}
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (len > i)
+	{
+		str[i] = s[start + i];
 		i++;
 	}
-	word[len] = '\0';
-	return (word);
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strdup(char *src)
+{
+	int		len;
+	int		i;
+	char	*dest;
+
+	len = 0;
+	i = 0;
+	while (src[len] != '\0')
+	{
+		len++;
+	}
+	dest = (char *) malloc (sizeof(char) * len + 1);
+	if (dest == NULL)
+	{
+		return (NULL);
+	}
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (str[len])
+	{
+		len++;
+	}
+	return (len);
 }
 
 int	main() {
@@ -119,38 +170,4 @@ int	main() {
     free(*res);
 
     return 0;
-}
-
-/*char	**ft_split(char const *s, char c)
-{
-	char		**res;
-	int			j;
-	const char	*str;
-	int			len;
-
-	j = 0;
-	res = (char **)malloc(sizeof(char *) * (count_w(s, c) + 1));
-	if (res == NULL)
-		return (NULL);
-	while (*s != '\0')
-	{
-		while (*s != '\0' && *s == c)
-			s++;
-		if (*s != '\0' && *s != c)
-		{
-			str = s;
-			len = 0;
-			while (*s != '\0' && *s != c)
-			{
-				s++;
-				len++;
-			}
-			res[j] = copy_w(str, len);
-			if (res[j] == NULL)
-				free_s(res[j]);
-			j++;
-		}
-	}
-	res[j] = NULL;
-	return (res);
 }*/
