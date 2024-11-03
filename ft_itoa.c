@@ -14,6 +14,34 @@
 //#include <stdlib.h>
 #include "libft.h"
 
+int		count(int n);
+void	fill(char *str, long num, int len);
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	int		len;
+	long	num;
+	int		sign;
+
+	num = n;
+	sign = n < 0;
+	len = count(num) + sign;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	if (sign)
+	{
+		num = -num;
+	}
+	fill(str + sign, num, len - sign);
+	if (sign)
+	{
+		str[0] = '-';
+	}
+	return (str);
+}
+
 int	count(int n)
 {
 	int	i;
@@ -36,27 +64,6 @@ void	fill(char *str, long num, int len)
 		str[len] = (num % 10) + '0';
 		num /= 10;
 	}
-}
-
-char	*ft_itoa(int n)
-{
-	char	*str;
-	int		len;
-	long	num;
-	int		sign;
-
-	num = n;
-	sign = n < 0;
-	len = count(num) + sign;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	if (sign)
-		num = -num;
-	fill(str + sign, num, len - sign);
-	if (sign)
-		str[0] = '-';
-	return (str);
 }
 /*
 int main()

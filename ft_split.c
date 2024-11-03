@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 #include "libft.h"
 
 int		count_w(const char *s, char c);
@@ -20,14 +20,14 @@ void	ft_allocate(char **tab, char const *s, char c);
 char	**ft_split(char const *s, char c)
 {
 	char	**str;
-	int		size;
+	int		words;
 
 	if (s == NULL)
 	{
 		return (NULL);
 	}
-	size = count_w(s, c);
-	str = (char **)malloc(sizeof(char *) * (size + 1));
+	words = count_w(s, c);
+	str = (char **)malloc(sizeof(char *) * (words + 1));
 	if (str == NULL)
 	{
 		return (NULL);
@@ -61,14 +61,14 @@ int	count_w(const char *s, char c)
 	return (j);
 }
 
-void	ft_allocate(char **tab, char const *s, char c)
+void	ft_allocate(char **sub, char const *s, char c)
 {
-	char		**tab1;
+	char		**sub1;
 	char const	*str;
 
 	str = s;
-	tab1 = tab;
-	while (*str)
+	sub1 = sub;
+	while (*str != '\0')
 	{
 		while (*s == c)
 		{
@@ -81,12 +81,12 @@ void	ft_allocate(char **tab, char const *s, char c)
 		}
 		if (*str == c || str > s)
 		{
-			*tab1 = ft_substr(s, 0, str - s);
+			*sub1 = ft_substr(s, 0, str - s);
 			s = str;
-			tab1++;
+			sub1++;
 		}
 	}
-	*tab1 = NULL;
+	*sub1 = NULL;
 }
 /*
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -158,12 +158,13 @@ size_t	ft_strlen(const char *str)
 
 int	main() {
     char **res;
-    char *str = "Olá, meu nome é Victoria";
+    char *str = "  Olá, meu   nome é Victoria";
     char d = ' ';
 
     res = ft_split(str, d);
 
-    while (*res != NULL) {
+    while (*res != NULL)
+	{
         printf("%s\n", *res);
         res++;
     }

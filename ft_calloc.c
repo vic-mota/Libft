@@ -51,13 +51,13 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
+
 int main()
 {	
-	int *r= (int *)ft_calloc(5, sizeof(int));
+	int *r = (int *)ft_calloc(sizeof(int) * 5);
     
-	r[1] = 10;
+	//r[1] = 10;
 
-	printf("%d\n", r[1]);
+	printf("%d\n", r[0]);
 	free(r);
-}
-*/
+}*/
