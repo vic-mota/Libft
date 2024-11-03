@@ -15,24 +15,33 @@
 #include "libft.h"
 
 int		count_w(const char *s, char c);
-void	ft_allocate(char **tab, char const *s, char c);
+void	allocate(char **tab, char const *s, char c);
+void	free_s(char **s);
 
 char	**ft_split(char const *s, char c)
 {
 	char	**str;
 	int		words;
+	int		i;
 
+	i = 0;
 	if (s == NULL)
-	{
 		return (NULL);
-	}
 	words = count_w(s, c);
 	str = (char **)malloc(sizeof(char *) * (words + 1));
 	if (str == NULL)
-	{
 		return (NULL);
+	allocate(str, s, c);
+	while (i < words)
+	{
+		if (str[i] == NULL)
+		{
+			free_s(str);
+			return (NULL);
+		}
+		i++;
 	}
-	ft_allocate(str, s, c);
+	str[i] = NULL;
 	return (str);
 }
 
@@ -61,7 +70,7 @@ int	count_w(const char *s, char c)
 	return (j);
 }
 
-void	ft_allocate(char **sub, char const *s, char c)
+void	allocate(char **sub, char const *s, char c)
 {
 	char		**sub1;
 	char const	*str;
@@ -71,9 +80,7 @@ void	ft_allocate(char **sub, char const *s, char c)
 	while (*str != '\0')
 	{
 		while (*s == c)
-		{
 			s++;
-		}
 		str = s;
 		while (*str && *str != c)
 		{
@@ -82,11 +89,26 @@ void	ft_allocate(char **sub, char const *s, char c)
 		if (*str == c || str > s)
 		{
 			*sub1 = ft_substr(s, 0, str - s);
+			if (*sub1 == NULL)
+				return (NULL);
 			s = str;
 			sub1++;
 		}
 	}
 	*sub1 = NULL;
+}
+
+void	free_s(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != NULL)
+	{
+		free(s[i]);
+		i++;
+	}
+	free(s);
 }
 /*
 char	*ft_substr(char const *s, unsigned int start, size_t len)
