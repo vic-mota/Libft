@@ -25,15 +25,23 @@ SRCS =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 		ft_putnbr_fd.c ft_putendl_fd.c ft_strmapi.c ft_striteri.c \
 		ft_strtrim.c ft_itoa.c ft_split.c
 
+SRCS_BONUS =	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
+				ft_lstadd_back.c
+
 OBJS = $(SRCS:.c=.o)
+
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 $(NAME): $(OBJS)
 	ar -rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
+bonus: $(NAME) $(OBJS_BONUS)
+	ar -rcs $(NAME) $(OBJS_BONUS)
+
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
 	rm -rf $(NAME)
