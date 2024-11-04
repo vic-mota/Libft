@@ -15,7 +15,7 @@
 #include "libft.h"
 
 int		count_w(const char *s, char c);
-void	allocate(char **tab, char const *s, char c);
+void	allocate(char **sub, char const *s, char c);
 void	free_s(char **s);
 
 char	**ft_split(char const *s, char c)
@@ -90,7 +90,7 @@ void	allocate(char **sub, char const *s, char c)
 		{
 			*sub1 = ft_substr(s, 0, str - s);
 			if (*sub1 == NULL)
-				return (NULL);
+				return ;
 			s = str;
 			sub1++;
 		}
